@@ -1,51 +1,71 @@
 .sidebar {
-  width: 220px;
+  width: 240px;
   min-height: 100vh;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  padding: 28px 16px;
+  background: #161618; /* Màu xám đen giống hệt sidebar trong ảnh */
+  padding: 28px 18px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .sidebar-logo {
-  font-family: 'Fraunces', serif;
-  font-weight: 600;
-  font-size: 20px;
-  color: var(--brand);
-  padding: 0 12px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 22px;
+  color: #ffffff;
+  padding: 0 10px 32px;
+  letter-spacing: -0.5px;
+}
+
+.logo-symbol {
+  color: #c5974e; /* Màu vàng cát điểm nhấn cho logo */
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .sidebar-link {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  color: var(--muted);
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: #9ca3af; /* Muted gray cho các mục chưa chọn */
   text-decoration: none;
   font-size: 14.5px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .sidebar-link:hover {
-  background: var(--bg);
-  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
 }
 
+/* Item đang chọn dạng thẻ nổi màu vàng cát giống ảnh */
 .sidebar-link.is-active {
-  background: var(--brand);
-  color: white;
+  background: linear-gradient(135deg, #c5974e 0%, #b8863b 100%);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(197, 151, 78, 0.28);
 }
 
 .sidebar-icon {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
 }
 
 @media (max-width: 768px) {
-  .sidebar { display: none; }
+  .sidebar {
+    display: none;
+  }
 }

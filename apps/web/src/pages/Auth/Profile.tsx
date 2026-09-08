@@ -85,68 +85,107 @@ export const Profile: React.FC = () => {
 
       <main className="profile-main">
         <div className="profile-topbar">
-          <h1>Hồ sơ</h1>
+          <h1>Hồ sơ cá nhân</h1>
           <button className="logout-btn" onClick={handleLogout}>Đăng xuất</button>
         </div>
 
         {message && <div className="profile-message">{message}</div>}
 
-        <section className="profile-card">
-          <div className="profile-avatar-lg">
-            {user?.avatar_url ? (
-              <img src={user.avatar_url} alt={user.full_name} />
-            ) : (
-              <span>{user?.full_name?.charAt(0).toUpperCase()}</span>
-            )}
+        {/* Hero Banner dạng thẻ màu vàng đồng theo ảnh */}
+        <section className="profile-hero-card">
+          <div className="hero-text-content">
+            <h2>Xin chào, {user?.full_name || 'Học viên'}!</h2>
+            <p>Tài khoản cá nhân và tổng quan hoạt động ôn luyện của bạn.</p>
+            <div className="hero-actions">
+              {!isEditing && (
+                <button className="hero-edit-btn" onClick={() => setIsEditing(true)}>
+                  ✎ Chỉnh sửa hồ sơ
+                </button>
+              )}
+            </div>
           </div>
-
-          <div className="profile-info">
-            {!isEditing ? (
-              <>
-                <div className="profile-name-row">
-                  <h2>{user?.full_name}</h2>
-                  <button className="edit-icon" onClick={() => setIsEditing(true)} title="Chỉnh sửa">✎</button>
-                </div>
-                <dl className="profile-details">
-                  <div><dt>Ngày tham gia</dt><dd>{joinedDate}</dd></div>
-                  <div><dt>Vai trò</dt><dd className="capitalize">{user?.role === 'student' ? 'Học viên' : user?.role}</dd></div>
-                  <div><dt>Email</dt><dd>{user?.email}</dd></div>
-                  <div><dt>Trạng thái</dt><dd className="capitalize">{user?.status === 'active' ? 'Đang hoạt động' : user?.status}</dd></div>
-                </dl>
-              </>
-            ) : (
-              <form onSubmit={handleUpdate} className="profile-edit-form">
-                <label>Họ và tên</label>
-                <input value={fullName} onChange={(e) => setFullName(e.target.value)} required />
-                <div className="edit-actions">
-                  <button type="submit" disabled={saving} className="save-btn">
-                    {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
-                  </button>
-                  <button
-                    type="button"
-                    className="cancel-btn"
-                    onClick={() => { setIsEditing(false); setFullName(user?.full_name || ''); }}
-                  >
-                    Hủy
-                  </button>
-                </div>
-              </form>
-            )}
+          <div className="hero-avatar-wrapper">
+            <div className="profile-avatar-lg">
+              {user?.avatar_url ? (
+                <img src={user.avatar_url} alt={user.full_name} />
+              ) : (
+                <span>{user?.full_name?.charAt(0).toUpperCase()}</span>
+              )}
+            </div>
           </div>
         </section>
 
+        {/* Hàng 4 thẻ thông tin nhỏ giống thiết kế ảnh mẫu */}
+        <section className="profile-stats-grid">
+          <div className="stat-card">
+            <div className="stat-icon">📅</div>
+            <div className="stat-info">
+              <span className="stat-value">{joinedDate}</span>
+              <span className="stat-label">Ngày tham gia</span>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">🎓</div>
+            <div className="stat-info">
+              <span className="stat-value capitalize">{user?.role === 'student' ? 'Học viên' : user?.role}</span>
+              <span className="stat-label">Vai trò</span>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">✉️</div>
+            <div className="stat-info">
+              <span className="stat-value" title={user?.email}>{user?.email}</span>
+              <span className="stat-label">Email</span>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon">🟢</div>
+            <div className="stat-info">
+              <span className="stat-value capitalize">{user?.status === 'active' ? 'Đang hoạt động' : user?.status}</span>
+              <span className="stat-label">Trạng thái</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Khung form chỉnh sửa tên nếu đang bật isEditing */}
+        {isEditing && (
+          <section className="profile-edit-section">
+            <h3>Chỉnh sửa thông tin</h3>
+            <form onSubmit={handleUpdate} className="profile-edit-form">
+              <label>Họ và tên</label>
+              <input value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+              <div className="edit-actions">
+                <button type="submit" disabled={saving} className="save-btn">
+                  {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
+                </button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => { setIsEditing(false); setFullName(user?.full_name || ''); }}
+                >
+                  Hủy
+                </button>
+              </div>
+            </form>
+          </section>
+        )}
+
+        {/* Danh sách lịch sử làm bài */}
         <section className="activity-section">
           <h2>Lịch sử làm bài gần đây</h2>
-          <div className="activity-timeline">
+          <div className="activity-list">
             {recentActivity.map((item, i) => (
-              <div className="activity-item" key={i}>
-                <span className={`activity-dot ${item.status}`} />
+              <div className="activity-card" key={i}>
+                <div className="activity-badge">{item.date}</div>
                 <div className="activity-content">
                   <div className="activity-title">{item.title}</div>
                   <div className="activity-detail">{item.detail}</div>
                 </div>
                 <span className={`activity-status ${item.status}`}>
-                  {item.status === 'done' ? 'Hoàn thành' : `Ngày: ${item.date}`}
+                  {item.status === 'done' ? 'Hoàn thành' : 'Đang chờ'}
                 </span>
               </div>
             ))}
@@ -154,7 +193,12 @@ export const Profile: React.FC = () => {
         </section>
       </main>
 
+      {/* Cột bên phải màu kem nhạt đồng bộ ảnh */}
       <aside className="profile-rightpanel">
+        <div className="rightpanel-header">
+          <h2>Tài khoản</h2>
+        </div>
+
         <div className="side-card">
           <h3>Bảo mật tài khoản</h3>
           <p>Đổi mật khẩu định kỳ để bảo vệ tài khoản của bạn.</p>
