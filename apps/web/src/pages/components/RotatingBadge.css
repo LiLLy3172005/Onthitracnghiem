@@ -1,0 +1,43 @@
+.rotating-badge {
+  position: relative;
+  width: 118px;
+  height: 118px;
+}
+
+.rotating-badge-svg {
+  width: 100%;
+  height: 100%;
+  animation: badge-spin 16s linear infinite;
+}
+
+@keyframes badge-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotating-badge-svg { animation: none; }
+}
+
+.rotating-badge-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  fill: var(--dark-ink);
+}
+
+.rotating-badge-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 14px rgba(229, 160, 56, 0.4);
+}

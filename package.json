@@ -5,5 +5,8 @@
     "backend",
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "framer-motion": "^13.2.0"
+  }
 }
