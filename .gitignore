@@ -1,0 +1,28 @@
+# Environment & Secrets (Tuyệt đối không push)
+.env
+.env.*
+!.env.example
+
+# Dependencies (Rất nặng, không push)
+node_modules/
+vendor/
+
+# Build outputs & Cache
+dist/
+build/
+.vite/
+.cache/
+
+# Laravel Logs & Cache
+backend/storage/*.key
+backend/storage/logs/*.log
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/bootstrap/cache/*.php
+
+# System & IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

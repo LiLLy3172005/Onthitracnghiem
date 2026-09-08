@@ -1,0 +1,9 @@
+{
+  "name": "onthitracnghiem-monorepo",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "apps/*",
+    "packages/*"
+  ]
+}
