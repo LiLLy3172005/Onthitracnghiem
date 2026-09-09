@@ -4,6 +4,7 @@ import './RotatingBadge.css';
 interface RotatingBadgeProps {
   text: string;
   centerIcon?: string;
+    size?: number;
 }
 
 export const RotatingBadge: React.FC<RotatingBadgeProps> = ({ text, centerIcon = '⚡' }) => {

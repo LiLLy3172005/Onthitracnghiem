@@ -209,8 +209,8 @@ export const Home: React.FC = () => {
     </motion.div>
 
     <motion.h1 variants={fadeInUp} className="hero-heading-v2">
-      Chinh phục mọi kỳ thi <br />
-      <span className="highlight-text">{isLoggedIn ? `cùng ${firstName}` : 'cùng Brain Blitz'}</span>
+      Chinh phục mọi kỳ thi cùng <br />
+      <span className="highlight-text">{isLoggedIn ? `cùng ${firstName}` : 'Brain Blitz'}</span>
     </motion.h1>
 
     <motion.p variants={fadeInUp} className="hero-lead">
@@ -257,16 +257,17 @@ export const Home: React.FC = () => {
   </div>
 
   <motion.div variants={fadeInUp} className="hero-right-v2">
-    <div className="hero-rotating-wrap">
-      <RotatingBadge text="ÔN THI THÔNG MINH • AI PHÂN TÍCH • " centerIcon="⚡" />
-    </div>
+   
 
     <div className="hero-photo-frame">
       <div className="hero-photo-blob-bg" />
       <div className="hero-photo-img">
         <img src="/hero-photo.png" alt="Học viên Brain Blitz" />
       </div>
-
+      
+ <div className="hero-rotating-wrap">
+      <RotatingBadge text="ÔN THI THÔNG MINH • AI PHÂN TÍCH • " centerIcon="⚡" />
+    </div>
       <motion.div
         className="floating-badge floating-badge-1"
         animate={{ y: [0, -10, 0] }}
