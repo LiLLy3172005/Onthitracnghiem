@@ -851,7 +851,7 @@
 .hero-left { text-align: left; }
 
 .hero-heading-v2 {
-  font-size: 50px;
+  font-size: 60px; /* trước là 50px */
   font-weight: 800;
   line-height: 1.15;
   margin: 22px 0 16px;
@@ -913,10 +913,14 @@
 }
 
 .hero-rotating-wrap {
-  position: absolute;
-  top: -18px;
-  right: 8px;
-  z-index: 5;
+  position: absolute !important;
+  top: -20px !important;       /* Đẩy huy hiệu lên cao ngang viền tóc */
+  right: -37px !important;     /* Đẩy huy hiệu sang góc trên bên PHẢI */
+  left: auto !important;       /* Triệt tiêu thuộc tính left cũ */
+  bottom: auto !important;     /* Triệt tiêu thuộc tính bottom cũ */
+  transform: none !important;  /* Bỏ mọi căn giữa transform nếu có */
+  z-index: 10;
+  pointer-events: none;        /* Không cản trở click chuột */
 }
 
 .hero-photo-frame {
@@ -973,12 +977,12 @@
 .floating-badge-2 { bottom: 22%; right: -40px; }
 .floating-badge-3 { bottom: -14px; left: 24%; }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .hero-v2 { grid-template-columns: 1fr; text-align: center; }
   .hero-left { text-align: center; }
   .hero-lead { margin-left: auto; margin-right: auto; }
   .hero-social-row { justify-content: center; }
-  .hero-heading-v2 { font-size: 36px; }
+  .hero-heading-v2 { font-size: 46px; } 
   .hero-photo-frame { width: 260px; height: 300px; margin: 40px auto 0; }
   .floating-badge { font-size: 11.5px; padding: 8px 12px; }
   .floating-badge-1 { left: -10px; }

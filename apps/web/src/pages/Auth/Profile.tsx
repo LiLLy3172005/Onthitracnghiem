@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { api } from '@onthitracnghiem/shared';
 import Sidebar from '../components/Sidebar';
+import RotatingBadge from '../components/RotatingBadge';
 import './Profile.css';
 
 interface User {
@@ -14,11 +16,45 @@ interface User {
   created_at?: string;
 }
 
-// Dữ liệu tạm — sẽ thay bằng API thật khi Module 5, 6 hoàn thành
+// Dữ liệu tạm — sẽ thay bằng API thật khi Module 5, 6 hoàn thành.
+// Lịch sử làm bài lấy từ bảng exam_attempts (submitted_at, total_score).
 const recentActivity = [
-  { title: 'Đề tổng hợp - Toán học', detail: '20 câu hỏi, 45 phút', status: 'done', date: '05.09.2026' },
-  { title: 'Ngữ pháp cơ bản - Tiếng Anh', detail: '15 câu hỏi, 30 phút', status: 'pending', date: '03.09.2026' },
+  { title: 'Đề tổng hợp - Toán học', detail: '20 câu hỏi, 45 phút', status: 'done', date: '05.09.2026', day: 5 },
+  { title: 'Ngữ pháp cơ bản - Tiếng Anh', detail: '15 câu hỏi, 30 phút', status: 'pending', date: '03.09.2026', day: 3 },
 ];
+
+// Bảng xếp hạng — sẽ thay bằng API GET /leaderboard truy vấn learning_records
+// (ORDER BY average_score DESC), JOIN users để lấy tên.
+const leaderboard = [
+  { rank: 1, name: 'Nguyễn Minh Anh', score: 9.8 },
+  { rank: 2, name: 'Trần Gia Bảo', score: 9.6 },
+  { rank: 3, name: 'Lê Thị Hà', score: 9.4 },
+  { rank: 4, name: 'Phạm Đức Long', score: 9.1 },
+];
+
+const reminders = [
+  { text: 'Đề Tiếng Anh - hạn nộp hôm nay', time: '17:00' },
+];
+
+const easeOutCurve = [0.16, 1, 0.3, 1] as const;
+const fadeInUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeOutCurve } },
+} as const;
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+};
+
+function getMonthGrid(year: number, month: number) {
+  const firstDay = new Date(year, month, 1);
+  const startWeekday = (firstDay.getDay() + 6) % 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const cells: (number | null)[] = Array(startWeekday).fill(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+  while (cells.length % 7 !== 0) cells.push(null);
+  return cells;
+}
 
 export const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -79,20 +115,33 @@ export const Profile: React.FC = () => {
     ? new Date(user.created_at).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })
     : '—';
 
+  const today = new Date();
+  const cells = getMonthGrid(today.getFullYear(), today.getMonth());
+  const monthName = today.toLocaleDateString('vi-VN', { month: 'long', year: 'numeric' });
+  const activityDays = recentActivity.map((a) => a.day);
+
   return (
     <div className="app-shell">
       <Sidebar />
 
-      <main className="profile-main">
-        <div className="profile-topbar">
-          <h1>Hồ sơ cá nhân</h1>
+      <motion.main
+        className="profile-main"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div variants={fadeInUp} className="profile-topbar">
+          <h1>Hồ sơ cá nhân - <span className="brand-accent">Brain Blitz</span></h1>
           <button className="logout-btn" onClick={handleLogout}>Đăng xuất</button>
-        </div>
+        </motion.div>
 
         {message && <div className="profile-message">{message}</div>}
 
-        {/* Hero Banner dạng thẻ màu vàng đồng theo ảnh */}
-        <section className="profile-hero-card">
+        {/* Hero Banner */}
+        <motion.section variants={fadeInUp} className="profile-hero-card">
+          <span className="hero-decor-circle c1" />
+          <span className="hero-decor-circle c2" />
+
           <div className="hero-text-content">
             <h2>Xin chào, {user?.full_name || 'Học viên'}!</h2>
             <p>Tài khoản cá nhân và tổng quan hoạt động ôn luyện của bạn.</p>
@@ -104,7 +153,11 @@ export const Profile: React.FC = () => {
               )}
             </div>
           </div>
+
           <div className="hero-avatar-wrapper">
+            <div className="hero-rotating-wrap">
+  <RotatingBadge text="BRAIN BLITZ • HỌC VIÊN • " centerIcon="🏅" size={130} />
+</div>
             <div className="profile-avatar-lg">
               {user?.avatar_url ? (
                 <img src={user.avatar_url} alt={user.full_name} />
@@ -113,10 +166,10 @@ export const Profile: React.FC = () => {
               )}
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* Hàng 4 thẻ thông tin nhỏ giống thiết kế ảnh mẫu */}
-        <section className="profile-stats-grid">
+        {/* 4 thẻ chỉ số */}
+        <motion.section variants={fadeInUp} className="profile-stats-grid">
           <div className="stat-card">
             <div className="stat-icon">📅</div>
             <div className="stat-info">
@@ -148,11 +201,14 @@ export const Profile: React.FC = () => {
               <span className="stat-label">Trạng thái</span>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* Khung form chỉnh sửa tên nếu đang bật isEditing */}
         {isEditing && (
-          <section className="profile-edit-section">
+          <motion.section
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            className="profile-edit-section"
+          >
             <h3>Chỉnh sửa thông tin</h3>
             <form onSubmit={handleUpdate} className="profile-edit-form">
               <label>Họ và tên</label>
@@ -170,11 +226,11 @@ export const Profile: React.FC = () => {
                 </button>
               </div>
             </form>
-          </section>
+          </motion.section>
         )}
 
-        {/* Danh sách lịch sử làm bài */}
-        <section className="activity-section">
+        {/* Lịch sử làm bài */}
+        <motion.section variants={fadeInUp} className="activity-section">
           <h2>Lịch sử làm bài gần đây</h2>
           <div className="activity-list">
             {recentActivity.map((item, i) => (
@@ -190,15 +246,16 @@ export const Profile: React.FC = () => {
               </div>
             ))}
           </div>
-        </section>
-      </main>
+        </motion.section>
+      </motion.main>
 
-      {/* Cột bên phải màu kem nhạt đồng bộ ảnh */}
-      <aside className="profile-rightpanel">
-        <div className="rightpanel-header">
-          <h2>Tài khoản</h2>
-        </div>
-
+      {/* Panel phải */}
+      <motion.aside
+        className="profile-rightpanel"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         <div className="side-card">
           <h3>Bảo mật tài khoản</h3>
           <p>Đổi mật khẩu định kỳ để bảo vệ tài khoản của bạn.</p>
@@ -214,7 +271,66 @@ export const Profile: React.FC = () => {
             Sắp ra mắt
           </button>
         </div>
-      </aside>
+
+        {/* Bảng xếp hạng - dựa trên learning_records.average_score */}
+        <div className="side-card">
+          <h3>🏆 Bảng xếp hạng tuần</h3>
+          <div className="leaderboard-list">
+            {leaderboard.map((row) => (
+              <div className="leaderboard-row" key={row.rank}>
+                <span className={`leaderboard-rank ${row.rank === 1 ? 'top1' : row.rank === 2 ? 'top2' : row.rank === 3 ? 'top3' : ''}`}>
+                  #{row.rank}
+                </span>
+                <span className="leaderboard-name">{row.name}</span>
+                <span className="leaderboard-score">{row.score}</span>
+              </div>
+            ))}
+          </div>
+          <div className="leaderboard-note">Bạn đang xếp hạng #12 trong tuần này</div>
+        </div>
+
+        {/* Lịch mini - bôi đậm ngày đã làm đề, dựa trên exam_attempts.submitted_at */}
+        <div className="side-card calendar-card">
+          <div className="calendar-title">{monthName}</div>
+          <div className="calendar-weekdays">
+            {['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((d) => <span key={d}>{d}</span>)}
+          </div>
+          <div className="calendar-days-grid">
+            {cells.map((d, i) => {
+              const isToday = d === today.getDate();
+              const hasActivity = d !== null && activityDays.includes(d);
+              return (
+                <span
+                  key={i}
+                  className={
+                    'day-cell' +
+                    (isToday ? ' is-today' : '') +
+                    (hasActivity && !isToday ? ' has-activity' : '') +
+                    (d === null ? ' empty' : '')
+                  }
+                  title={hasActivity ? 'Đã làm đề ngày này' : undefined}
+                >
+                  {d || ''}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Nhắc nhở */}
+        <div className="side-card">
+          <div className="reminders-title">Nhắc nhở</div>
+          {reminders.map((r, i) => (
+            <div className="reminder-item" key={i}>
+              <span className="reminder-dot" />
+              <div>
+                <div className="reminder-text">{r.text}</div>
+                <div className="reminder-time">{r.time}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.aside>
     </div>
   );
 };

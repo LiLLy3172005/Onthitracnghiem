@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '@onthitracnghiem/shared';
-import './Auth.css';
+import AuthLayout from './AuthLayout';
 
 export const ChangePassword: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -14,12 +14,10 @@ export const ChangePassword: React.FC = () => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
-
     if (newPassword !== confirmPassword) {
       setError('Mật khẩu mới và xác nhận mật khẩu không khớp');
       return;
     }
-
     setLoading(true);
     try {
       const res = await api.post('/user/change-password', {
@@ -39,7 +37,7 @@ export const ChangePassword: React.FC = () => {
   };
 
   return (
-    <div className="auth-card" style={{ maxWidth: 420 }}>
+    <AuthLayout withIllustration={false}>
       <h2 className="auth-title">Đổi mật khẩu</h2>
 
       {error && <div className="auth-error">{error}</div>}
@@ -48,44 +46,19 @@ export const ChangePassword: React.FC = () => {
       <form onSubmit={handleSubmit} className="auth-form">
         <div className="form-group">
           <label className="form-label">Mật khẩu hiện tại</label>
-          <input
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            required
-            className="form-input"
-          />
+          <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required className="form-input" />
         </div>
-
         <div className="form-group">
           <label className="form-label">Mật khẩu mới</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-            minLength={6}
-            className="form-input"
-          />
+          <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required minLength={6} className="form-input" />
         </div>
-
         <div className="form-group">
           <label className="form-label">Xác nhận mật khẩu mới</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            minLength={6}
-            className="form-input"
-          />
+          <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={6} className="form-input" />
         </div>
-
-        <button type="submit" disabled={loading} className="btn-submit">
-          {loading ? 'Đang xử lý...' : 'Đổi mật khẩu'}
-        </button>
+        <button type="submit" disabled={loading} className="btn-submit">{loading ? 'Đang xử lý...' : 'Đổi mật khẩu'}</button>
       </form>
-    </div>
+    </AuthLayout>
   );
 };
 
