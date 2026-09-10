@@ -160,7 +160,7 @@ export const Home: React.FC = () => {
           <button className="nav-item" onClick={() => goOrLogin('/subjects')}>Môn học</button>
           {isLoggedIn && (
             <>
-              <button className="nav-item" onClick={() => navigate('/exams')}>Đề thi</button>
+              <button className="nav-item" onClick={() => navigate('/practice')}>Đề thi</button>
               <button className="nav-item" onClick={() => navigate('/history')}>Lịch sử</button>
               <button className="nav-item" onClick={() => navigate('/notifications')}>Thông báo</button>
             </>
@@ -174,7 +174,7 @@ export const Home: React.FC = () => {
               <button className="nav-item" onClick={() => navigate('/profile')}>Hồ sơ</button>
               <motion.button
                 className="cta-header-btn"
-                onClick={() => navigate('/exams')}
+                onClick={() => navigate('/practice')}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -223,7 +223,7 @@ export const Home: React.FC = () => {
     <motion.div variants={fadeInUp} className="hero-buttons">
       <motion.button
         className="btn-primary-gold"
-        onClick={() => goOrLogin('/exams')}
+        onClick={() => goOrLogin('/practice')}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -390,7 +390,7 @@ export const Home: React.FC = () => {
                       <p className="sub-desc">{sub.desc}</p>
                       <div className="sub-footer-meta">
                         <span>Số lượng câu hỏi: <strong>{sub.count}+ câu</strong></span>
-                        <button className="btn-start-sub" onClick={() => goOrLogin('/exams')}>
+                        <button className="btn-start-sub" onClick={() => goOrLogin('/practice')}>
                           {isLoggedIn ? 'Vào luyện đề ngay' : 'Đăng ký để luyện đề'}
                         </button>
                       </div>
@@ -495,7 +495,7 @@ export const Home: React.FC = () => {
         </p>
         <motion.button
           className="btn-primary-gold"
-          onClick={() => goOrLogin('/exams')}
+          onClick={() => goOrLogin('/practice')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -523,7 +523,7 @@ export const Home: React.FC = () => {
     <div className="footer-col">
       <h4>Sản phẩm</h4>
       <a href="#" onClick={(e) => { e.preventDefault(); navigate('/subjects'); }}>Môn học</a>
-      <a href="#" onClick={(e) => { e.preventDefault(); navigate('/exams'); }}>Đề thi</a>
+      <a href="#" onClick={(e) => { e.preventDefault(); navigate('/practice'); }}>Đề thi</a>
       <a href="#" onClick={(e) => { e.preventDefault(); }}>Bảng giá</a>
     </div>
 
