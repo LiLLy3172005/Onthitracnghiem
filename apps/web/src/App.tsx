@@ -7,6 +7,7 @@ import Home from './pages/Home/Home';
 import Profile from './pages/Auth/Profile';
 import ChangePassword from './pages/Auth/ChangePassword';
 import ComingSoon from './pages/ComingSoon/ComingSoon';
+import Exam from './pages/Exam/Exam';
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/subjects" element={<ComingSoon title="Môn học" />} />
-        <Route path="/exams" element={<ComingSoon title="Đề thi" />} />
+        <Route path="/exams" element={<Exam/>} />
         <Route path="/history" element={<ComingSoon title="Lịch sử" />} />
       </Routes>
     </BrowserRouter>
