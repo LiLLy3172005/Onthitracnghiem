@@ -158,12 +158,23 @@ export const Home: React.FC = () => {
         <nav className="nav-menu">
           <button className="nav-item active" onClick={() => navigate('/')}>Trang chủ</button>
           <button className="nav-item" onClick={() => goOrLogin('/subjects')}>Môn học</button>
+          <button className="nav-item" onClick={() => navigate('/search')}>Tìm kiếm</button>
+          <button className="nav-item" onClick={() => navigate('/instructors')}>Giảng viên</button>
           {isLoggedIn && (
             <>
               <button className="nav-item" onClick={() => navigate('/practice')}>Đề thi</button>
               <button className="nav-item" onClick={() => navigate('/history')}>Lịch sử</button>
               <button className="nav-item" onClick={() => navigate('/notifications')}>Thông báo</button>
             </>
+          )}
+          {user?.role === 'instructor' && (
+            <button className="nav-item" onClick={() => navigate('/instructor/workspace')}>Khu vực GV</button>
+          )}
+          {user?.role === 'admin' && (
+            <button className="nav-item" onClick={() => navigate('/admin/instructors')}>Duyệt GV</button>
+          )}
+          {(!user || user?.role === 'student') && (
+            <button className="nav-item" onClick={() => navigate('/instructor-register')}>Đăng ký GV</button>
           )}
         </nav>
 

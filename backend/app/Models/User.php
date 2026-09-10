@@ -17,6 +17,8 @@ use Laravel\Sanctum\HasApiTokens;
     'password',
     'role',
     'status',
+    'phone',
+    'level',
     'avatar_url',
     'provider',
     'provider_id',
@@ -43,5 +45,9 @@ class User extends Authenticatable
     public function instructorProfile()
     {
         return $this->hasOne(InstructorProfile::class, 'user_id');
+    }
+    public function collaborations()
+    {
+        return $this->hasMany(Collaborator::class, 'member_user_id');
     }
 }
