@@ -22,5 +22,6 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Quản lý hồ sơ & Mật khẩu
     Route::put('/user/profile', [UserController::class, 'updateProfile']);
+    Route::post('/user/upload-avatar', [UserController::class, 'uploadAvatar']);
     Route::post('/user/change-password', [UserController::class, 'changePassword']);
 });
