@@ -388,9 +388,7 @@ class SearchController extends Controller
      */
     public function getFilterMetadata(Request $request)
     {
-        $subjects = Subject::with(['instructorProfiles' => function ($q) {
-            $q->where('verify_status', 'approved');
-        }])->get()->map(function ($s) {
+        $subjects = Subject::all()->map(function ($s) {
             $examCount = Exam::where('subject_id', $s->id)->where('status', 'published')->count();
             $topics = Topic::where('subject_id', $s->id)->get(['id', 'name']);
             return [
