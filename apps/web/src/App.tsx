@@ -8,23 +8,29 @@ import Profile from './pages/Auth/Profile';
 import ChangePassword from './pages/Auth/ChangePassword';
 import ComingSoon from './pages/ComingSoon/ComingSoon';
 import Exam from './pages/Exam/Exam';
-
+import { ExamDataProvider } from './context/ExamDataContext';
+import TakeExam from './pages/Exam/TakeExam';
+import LearnerExams from './pages/Exam/LearnerExams';
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/subjects" element={<ComingSoon title="Môn học" />} />
-        <Route path="/exams" element={<Exam/>} />
-        <Route path="/history" element={<ComingSoon title="Lịch sử" />} />
-      </Routes>
-    </BrowserRouter>
+    <ExamDataProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/subjects" element={<ComingSoon title="Môn học" />} />
+          <Route path="/exams" element={<Exam />} />
+          <Route path="/take-exam/:setId" element={<TakeExam />} />
+          <Route path="/history" element={<ComingSoon title="Lịch sử" />} />
+            <Route path="/practice" element={<LearnerExams />} />
+        </Routes>
+      </BrowserRouter>
+    </ExamDataProvider>
   );
 }
