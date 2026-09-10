@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@onthitracnghiem/shared';
 import './Home.css';
 import RotatingBadge from '../components/RotatingBadge';
+import { NotificationDropdown } from '../Notification/components/NotificationDropdown';
 
 interface User {
   id: number;
@@ -161,6 +162,7 @@ export const Home: React.FC = () => {
             <>
               <button className="nav-item" onClick={() => navigate('/exams')}>Đề thi</button>
               <button className="nav-item" onClick={() => navigate('/history')}>Lịch sử</button>
+              <button className="nav-item" onClick={() => navigate('/notifications')}>Thông báo</button>
             </>
           )}
         </nav>
@@ -168,6 +170,7 @@ export const Home: React.FC = () => {
         <div className="nav-actions">
           {isLoggedIn ? (
             <>
+              <NotificationDropdown theme="dark" />
               <button className="nav-item" onClick={() => navigate('/profile')}>Hồ sơ</button>
               <motion.button
                 className="cta-header-btn"

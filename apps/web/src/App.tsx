@@ -7,7 +7,8 @@ import Home from './pages/Home/Home';
 import Profile from './pages/Auth/Profile';
 import ChangePassword from './pages/Auth/ChangePassword';
 import ComingSoon from './pages/ComingSoon/ComingSoon';
-
+import ExamManagement from "./pages/ExamManagement/ExamManagement";
+import NotificationPage from "./pages/Notification/NotificationPage";
 export default function App() {
   return (
     <BrowserRouter>
@@ -21,8 +22,10 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/subjects" element={<ComingSoon title="Môn học" />} />
-        <Route path="/exams" element={<ComingSoon title="Đề thi" />} />
+        {/* <Route path="/exams" element={<ComingSoon title="Đề thi" />} /> */}
+        <Route path="/exams" element={<ExamManagement />} />
         <Route path="/history" element={<ComingSoon title="Lịch sử" />} />
+        <Route path="/notifications" element={<NotificationPage />} />
       </Routes>
     </BrowserRouter>
   );
