@@ -48,6 +48,17 @@ const navItems = [
     ),
   },
   {
+    to: '/notifications',
+    label: 'Thông báo',
+    isNotification: true,
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </svg>
+    ),
+  },
+  {
     to: '/profile',
     label: 'Hồ sơ',
     icon: (
@@ -59,28 +70,66 @@ const navItems = [
   },
 ];
 
-export const Sidebar: React.FC = () => (
-  <aside className="sidebar">
-    <div className="sidebar-logo">
-      <svg className="logo-symbol" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-      </svg>
-      <span>Brain Blitz</span>
-    </div>
+export const Sidebar: React.FC = () => {
+  const [unreadCount, setUnreadCount] = React.useState<number>(0);
 
-    <nav className="sidebar-nav">
-      {navItems.map((item) => (
-        <NavLink
-          key={item.to}
-          to={item.to}
-          className={({ isActive }) => 'sidebar-link' + (isActive ? ' is-active' : '')}
-        >
-          <span className="sidebar-icon">{item.icon}</span>
-          {item.label}
-        </NavLink>
-      ))}
-    </nav>
-  </aside>
-);
+  React.useEffect(() => {
+    // Đọc unread count từ localStorage / api
+    const loadUnread = () => {
+      try {
+        const raw = localStorage.getItem('bb_notifications_data_v1');
+        if (raw) {
+          const list = JSON.parse(raw);
+          const count = list.filter((item: any) => !item.read_at).length;
+          setUnreadCount(count);
+        }
+      } catch {}
+    };
+
+    loadUnread();
+    window.addEventListener('notification-updated', loadUnread);
+    return () => window.removeEventListener('notification-updated', loadUnread);
+  }, []);
+
+  return (
+    <aside className="sidebar">
+      <div className="sidebar-logo">
+        <svg className="logo-symbol" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span>Brain Blitz</span>
+      </div>
+
+      <nav className="sidebar-nav">
+        {navItems.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) => 'sidebar-link' + (isActive ? ' is-active' : '')}
+          >
+            <span className="sidebar-icon">{item.icon}</span>
+            <span style={{ flex: 1 }}>{item.label}</span>
+            {item.isNotification && unreadCount > 0 && (
+              <span
+                style={{
+                  background: '#dc2626',
+                  color: '#ffffff',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  padding: '1px 6px',
+                  borderRadius: '10px',
+                  minWidth: '18px',
+                  textAlign: 'center',
+                }}
+              >
+                {unreadCount > 99 ? '99+' : unreadCount}
+              </span>
+            )}
+          </NavLink>
+        ))}
+      </nav>
+    </aside>
+  );
+};
 
 export default Sidebar;

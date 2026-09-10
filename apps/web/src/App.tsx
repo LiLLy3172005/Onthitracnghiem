@@ -7,10 +7,17 @@ import Home from './pages/Home/Home';
 import Profile from './pages/Auth/Profile';
 import ChangePassword from './pages/Auth/ChangePassword';
 import ComingSoon from './pages/ComingSoon/ComingSoon';
+
+// Import từ nhánh feature/module4-8
+import ExamManagement from "./pages/ExamManagement/ExamManagement";
+import NotificationPage from "./pages/Notification/NotificationPage";
+
+// Import từ nhánh main
 import Exam from './pages/Exam/Exam';
 import { ExamDataProvider } from './context/ExamDataContext';
 import TakeExam from './pages/Exam/TakeExam';
 import LearnerExams from './pages/Exam/LearnerExams';
+
 export default function App() {
   return (
     <ExamDataProvider>
@@ -24,11 +31,15 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          
+          {/* Các Route Quản lý & Thi trắc nghiệm */}
           <Route path="/subjects" element={<ComingSoon title="Môn học" />} />
           <Route path="/exams" element={<Exam />} />
+          <Route path="/exam-management" element={<ExamManagement />} />
           <Route path="/take-exam/:setId" element={<TakeExam />} />
+          <Route path="/practice" element={<LearnerExams />} />
+          <Route path="/notifications" element={<NotificationPage />} />
           <Route path="/history" element={<ComingSoon title="Lịch sử" />} />
-            <Route path="/practice" element={<LearnerExams />} />
         </Routes>
       </BrowserRouter>
     </ExamDataProvider>
