@@ -21,6 +21,12 @@ backend/storage/framework/sessions/*
 backend/storage/framework/views/*
 backend/bootstrap/cache/*.php
 
+# User Uploads (Data test - không push)
+backend/public/uploads/avatars/*
+backend/public/uploads/instructor_evidence/*
+!backend/public/uploads/avatars/.gitkeep
+!backend/public/uploads/instructor_evidence/.gitkeep
+
 # System & IDE
 .vscode/
 .idea/

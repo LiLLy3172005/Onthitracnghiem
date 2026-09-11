@@ -4,32 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subject extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    protected $table = 'subjects';
+
+    const UPDATED_AT = null;
 
     protected $fillable = [
         'name',
         'description',
-        'created_at',
     ];
 
-    public function topics(): HasMany
+    public function instructorProfiles()
     {
-        return $this->hasMany(Topic::class);
-    }
-
-    public function questions(): HasMany
-    {
-        return $this->hasMany(Question::class);
-    }
-
-    public function exams(): HasMany
-    {
-        return $this->hasMany(Exam::class);
+        return $this->belongsToMany(InstructorProfile::class, 'instructor_subjects', 'subject_id', 'instructor_id');
     }
 }

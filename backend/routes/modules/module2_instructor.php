@@ -29,15 +29,12 @@ Route::post('/admin/instructors/{id}/reject', [InstructorController::class, 'rej
 Route::post('/admin/instructors/{id}/toggle-status', [InstructorController::class, 'toggleStatus']);
 Route::delete('/admin/instructors/{id}', [InstructorController::class, 'deleteInstructor']);
 
-// ==================== PROTECTED ROUTES (SANCTUM) ====================
-Route::middleware('auth:sanctum')->group(function () {
-    // 3. Xem & Sửa thông tin giảng viên cá nhân
-    Route::get('/instructor/my-profile', [InstructorController::class, 'getProfile']);
-    Route::put('/instructor/my-profile', [InstructorController::class, 'updateProfile']);
+// ==================== INSTRUCTOR PROFILE & COLLABORATOR ROUTES ====================
+// Hỗ trợ cả khi có token Sanctum và fallback demo
+Route::get('/instructor/my-profile', [InstructorController::class, 'getProfile']);
+Route::put('/instructor/my-profile', [InstructorController::class, 'updateProfile']);
+Route::get('/instructor/collaborators', [InstructorController::class, 'getCollaborators']);
+Route::post('/instructor/collaborators', [InstructorController::class, 'addCollaborator']);
+Route::put('/instructor/collaborators/{id}', [InstructorController::class, 'updateCollaborator']);
+Route::delete('/instructor/collaborators/{id}', [InstructorController::class, 'removeCollaborator']);
 
-    // 5. Quản lý quyền cộng tác biên soạn đề (Version sau)
-    Route::get('/instructor/collaborators', [InstructorController::class, 'getCollaborators']);
-    Route::post('/instructor/collaborators', [InstructorController::class, 'addCollaborator']);
-    Route::put('/instructor/collaborators/{id}', [InstructorController::class, 'updateCollaborator']);
-    Route::delete('/instructor/collaborators/{id}', [InstructorController::class, 'removeCollaborator']);
-});

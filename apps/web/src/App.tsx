@@ -18,6 +18,13 @@ import { ExamDataProvider } from './context/ExamDataContext';
 import TakeExam from './pages/Exam/TakeExam';
 import LearnerExams from './pages/Exam/LearnerExams';
 
+// Import Module 2 (Quản lý Giảng viên) & Module 7 (Tìm kiếm & Lọc đa tiêu chí)
+import PublicInstructorPage from './pages/Instructor/PublicInstructorPage';
+import InstructorRegisterPage from './pages/Instructor/InstructorRegisterPage';
+import InstructorWorkspacePage from './pages/Instructor/InstructorWorkspacePage';
+import AdminInstructorPage from './pages/Instructor/AdminInstructorPage';
+import SearchFilterPage from './pages/Search/SearchFilterPage';
+
 export default function App() {
   return (
     <ExamDataProvider>
@@ -32,7 +39,7 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/change-password" element={<ChangePassword />} />
           
-          {/* Các Route Quản lý & Thi trắc nghiệm */}
+          {/* Các Route Quản lý & Thi trắc nghiệm (Nhóm & Module 4) */}
           <Route path="/subjects" element={<ComingSoon title="Môn học" />} />
           <Route path="/exams" element={<Exam />} />
           <Route path="/exam-management" element={<ExamManagement />} />
@@ -40,6 +47,19 @@ export default function App() {
           <Route path="/practice" element={<LearnerExams />} />
           <Route path="/notifications" element={<NotificationPage />} />
           <Route path="/history" element={<ComingSoon title="Lịch sử" />} />
+
+          {/* Module 7: Tìm kiếm & Lọc đề thi, câu hỏi đa tiêu chí */}
+          <Route path="/search" element={<SearchFilterPage />} />
+
+          {/* Module 2: Quản lý Giảng viên & Người tạo đề */}
+          <Route path="/instructors" element={<PublicInstructorPage />} />
+          <Route path="/instructor-register" element={<InstructorRegisterPage />} />
+          <Route path="/instructor/register" element={<InstructorRegisterPage />} />
+          <Route path="/instructor/workspace" element={<InstructorWorkspacePage />} />
+          <Route path="/instructor/profile" element={<InstructorWorkspacePage initialTab="profile" />} />
+          <Route path="/instructor/collaborators" element={<InstructorWorkspacePage initialTab="collab" />} />
+          <Route path="/admin/instructors" element={<AdminInstructorPage />} />
+          <Route path="/instructor-dashboard" element={<Navigate to="/instructors" replace />} />
         </Routes>
       </BrowserRouter>
     </ExamDataProvider>
