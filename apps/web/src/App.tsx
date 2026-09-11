@@ -24,6 +24,7 @@ import InstructorRegisterPage from './pages/Instructor/InstructorRegisterPage';
 import InstructorWorkspacePage from './pages/Instructor/InstructorWorkspacePage';
 import AdminInstructorPage from './pages/Instructor/AdminInstructorPage';
 import SearchFilterPage from './pages/Search/SearchFilterPage';
+import { AdminUsers } from './pages/Admin/AdminUsers';
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
           
           {/* Các Route Quản lý & Thi trắc nghiệm (Nhóm & Module 4) */}
           <Route path="/subjects" element={<ComingSoon title="Môn học" />} />
