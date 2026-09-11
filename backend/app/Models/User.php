@@ -2,35 +2,41 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable([
-    'full_name',
-    'email',
-    'password',
-    'role',
-    'status',
-    'avatar_url',
-    'provider',
-    'provider_id',
-])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Các trường được phép mass assignment.
+     */
+    protected $fillable = [
+        'full_name',
+        'email',
+        'password',
+        'role',
+        'status',
+        'avatar_url',
+        'provider',
+        'provider_id',
+    ];
+
+    /**
+     * Các trường không được trả về khi serialize User.
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * Các kiểu dữ liệu của thuộc tính.
      */
     protected function casts(): array
     {

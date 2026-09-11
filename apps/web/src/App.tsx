@@ -18,6 +18,13 @@ import { ExamDataProvider } from './context/ExamDataContext';
 import TakeExam from './pages/Exam/TakeExam';
 import LearnerExams from './pages/Exam/LearnerExams';
 
+//Import tu Admin
+import AdminLayout from './pages/Admin/AdminLayout';
+import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
+import ContentModeration from "./pages/Admin/ContentModeration/ContentModeration";
+import Reports from "./pages/Admin/Reports/Reports";
+
+
 export default function App() {
   return (
     <ExamDataProvider>
@@ -31,7 +38,7 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/change-password" element={<ChangePassword />} />
-          
+
           {/* Các Route Quản lý & Thi trắc nghiệm */}
           <Route path="/subjects" element={<ComingSoon title="Môn học" />} />
           <Route path="/exams" element={<Exam />} />
@@ -40,6 +47,21 @@ export default function App() {
           <Route path="/practice" element={<LearnerExams />} />
           <Route path="/notifications" element={<NotificationPage />} />
           <Route path="/history" element={<ComingSoon title="Lịch sử" />} />
+
+          {/* Các Route Admin */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="content" element={<ContentModeration />} />
+            <Route path="reports" element={<Reports />} />
+            <Route
+              path="categories"
+              element={<ComingSoon title="Quản lý danh mục hệ thống" />}
+            />
+            <Route
+              path="activity-logs"
+              element={<ComingSoon title="Nhật ký hoạt động" />}
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ExamDataProvider>
